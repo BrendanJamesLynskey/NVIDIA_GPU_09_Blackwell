@@ -760,7 +760,7 @@
 <header class="hero">
     <div class="series-label">NVIDIA GPU Architectures Series — Presentation 09</div>
     <h1><span class="accent">Blackwell</span> &mdash; Dual-Die, FP4, and the NVL72 Rack-Scale GPU</h1>
-    <p class="subtitle">Two reticle-limited dies bonded into one logical GPU. 5th-generation tensor cores with MX-FP4 microscaling. NVLink 5 at 1.8 TB/s per GPU and NVL72 racks that act as one giant 13.5 TB GPU. The architecture purpose-built for trillion-parameter MoE models.</p>
+    <p class="subtitle">Two reticle-limited dies bonded into one logical GPU. 5th-generation tensor cores with MX-FP4 and NVFP4 microscaling. NVLink 5 at 1.8 TB/s per GPU and NVL72 racks that act as one giant 13.8 TB GPU. The architecture purpose-built for trillion-parameter MoE models.</p>
 
     <div class="tags">
         <span class="tag">B100</span><span class="tag">B200</span><span class="tag">GB200</span>
@@ -821,7 +821,7 @@
         </div>
         <div class="diagram-panel accent-border">
             <h4>Why NVLink 5 mattered</h4>
-            <p>1.8 TB/s per GPU on NVLink 5 enables <strong>72-GPU coherent NVLink domains</strong> &mdash; the NVL72 rack acts as one logical GPU with 13.5 TB of HBM3e and 130 TB/s of fabric. Trillion-parameter MoE training without InfiniBand-shaped collective bottlenecks.</p>
+            <p>1.8 TB/s per GPU on NVLink 5 enables <strong>72-GPU coherent NVLink domains</strong> &mdash; the NVL72 rack acts as one logical GPU with 13.8 TB of HBM3e and 130 TB/s of fabric. Trillion-parameter MoE training without InfiniBand-shaped collective bottlenecks.</p>
         </div>
     </div>
 
@@ -943,7 +943,7 @@
 
     <div class="table-wrap">
         <table>
-            <thead><tr><th>SKU</th><th>TDP</th><th>HBM</th><th>BW</th><th>FP4 dense</th><th>Notes</th></tr></thead>
+            <thead><tr><th>SKU</th><th>TDP</th><th>HBM</th><th>BW</th><th>FP4 sparse</th><th>Notes</th></tr></thead>
             <tbody>
                 <tr><td><strong>B100</strong></td><td>700 W</td><td>192 GB HBM3e</td><td>8 TB/s</td><td>14 PFLOPS</td><td>Drop-in HGX H100 socket compatibility. Same 700 W envelope as H100 SXM. Throttled FP4/FP8 vs B200.</td></tr>
                 <tr><td><strong>B200</strong></td><td>1000 W</td><td>192 GB HBM3e</td><td>8 TB/s</td><td>18 PFLOPS</td><td>Full performance Blackwell. New HGX B200 baseboard (1 kW per socket). Liquid- or air-cooled.</td></tr>
@@ -1031,6 +1031,11 @@
     <div class="callout">
         <div class="callout-label">Why "microscaling" matters</div>
         <p>Hopper's FP8 used a <em>per-tensor</em> scale &mdash; one scale per (potentially gigabyte-sized) weight matrix. Outliers in any block forced the whole tensor's scale up, killing precision in the well-behaved blocks. MX shrinks the scale's scope to <strong>32 elements</strong>, so each microblock gets its own dynamic range. That is the whole reason FP4 works at all on real models.</p>
+    </div>
+
+    <div class="callout">
+        <div class="callout-label">MX-FP4 vs NVFP4</div>
+        <p>Blackwell's 5th-gen tensor cores support <strong>two FP4 variants</strong>. <strong>MX-FP4</strong> is the open OCP standard: 32-element blocks with an 8-bit power-of-two (E8M0) per-block scale. <strong>NVFP4</strong> is NVIDIA's variant: 16-element blocks with an FP8 (E4M3) per-block scale plus a per-tensor FP32 scale. NVFP4 is the default in TensorRT-LLM and Transformer Engine and is more accurate than MX-FP4 in practice; MX-FP4 wins on portability. Deep dive in deck 38.</p>
     </div>
 </section>
 
@@ -1174,7 +1179,7 @@ mx_recipe  = MXFP8BlockScaling(fp8_format=Format.E4M3, block_size=<span class="n
         <li><strong>72 B200 GPUs</strong> in 18 compute trays.</li>
         <li><strong>9 NVSwitch 4 trays</strong> (some configs use 18; on early hardware the 9-switch topology dominated). 144 ports per chip; the rack uses thousands of NVLink 5 lanes.</li>
         <li><strong>130 TB/s aggregate fabric bandwidth</strong> across the rack.</li>
-        <li><strong>13.5 TB unified HBM3e</strong> (72 &times; 192 GB) addressable as one logical GPU memory space, coherent across the rack.</li>
+        <li><strong>13.8 TB unified HBM3e</strong> (72 &times; 192 GB) addressable as one logical GPU memory space, coherent across the rack.</li>
         <li>Liquid-cooled by design; ~120 kW per rack.</li>
     </ul>
 
@@ -1194,7 +1199,7 @@ mx_recipe  = MXFP8BlockScaling(fp8_format=Format.E4M3, block_size=<span class="n
 <section class="slide" id="slide-09">
     <div class="slide-number">09</div>
     <h2>GB200 Grace-Blackwell Superchip + NVL72</h2>
-    <p>The GB200 module is an NVIDIA-designed compute brick: <strong>1 Grace CPU + 2 B200 GPUs</strong>, bonded with NVLink-C2C. The NVL72 rack is 18 of those bricks plus a switching plane.</p>
+    <p>The GB200 module is an NVIDIA-designed compute brick: <strong>1 Grace CPU + 2 B200 GPUs</strong>, bonded with NVLink-C2C. The NVL72 rack is 36 of those bricks (18 compute trays, 2 superchips per tray) plus a switching plane.</p>
 
     <div class="canvas-wrap">
         <svg viewBox="0 0 760 360" width="760" height="360" xmlns="http://www.w3.org/2000/svg">
@@ -1265,21 +1270,21 @@ mx_recipe  = MXFP8BlockScaling(fp8_format=Format.E4M3, block_size=<span class="n
             <rect x="380" y="60" width="370" height="280" fill="#0d1117" stroke="#21262d"/>
 
             <!-- 18 compute trays (3 cols x 6 rows of GB200 squares) -->
-            <text x="565" y="76" class="sub" text-anchor="middle">18 compute trays &middot; each = 1 GB200 = 1 Grace + 2 B200</text>
+            <text x="565" y="76" class="sub" text-anchor="middle">18 compute trays &middot; each tray = 2 GB200 &middot; 36 Grace + 72 B200 total</text>
 
             <!-- Use 9 rows x 2 cols of small boxes for 18 trays -->
             <g>
                 <!-- left column 9 trays -->
                 <g>
-                    <rect x="395" y="90" width="70" height="20" class="gpu"/><text x="430" y="104" class="sub" text-anchor="middle">GB200 1</text>
-                    <rect x="395" y="115" width="70" height="20" class="gpu"/><text x="430" y="129" class="sub" text-anchor="middle">GB200 2</text>
-                    <rect x="395" y="140" width="70" height="20" class="gpu"/><text x="430" y="154" class="sub" text-anchor="middle">GB200 3</text>
-                    <rect x="395" y="165" width="70" height="20" class="gpu"/><text x="430" y="179" class="sub" text-anchor="middle">GB200 4</text>
-                    <rect x="395" y="190" width="70" height="20" class="gpu"/><text x="430" y="204" class="sub" text-anchor="middle">GB200 5</text>
-                    <rect x="395" y="215" width="70" height="20" class="gpu"/><text x="430" y="229" class="sub" text-anchor="middle">GB200 6</text>
-                    <rect x="395" y="240" width="70" height="20" class="gpu"/><text x="430" y="254" class="sub" text-anchor="middle">GB200 7</text>
-                    <rect x="395" y="265" width="70" height="20" class="gpu"/><text x="430" y="279" class="sub" text-anchor="middle">GB200 8</text>
-                    <rect x="395" y="290" width="70" height="20" class="gpu"/><text x="430" y="304" class="sub" text-anchor="middle">GB200 9</text>
+                    <rect x="395" y="90" width="70" height="20" class="gpu"/><text x="430" y="104" class="sub" text-anchor="middle">Tray 1 (2x)</text>
+                    <rect x="395" y="115" width="70" height="20" class="gpu"/><text x="430" y="129" class="sub" text-anchor="middle">Tray 2 (2x)</text>
+                    <rect x="395" y="140" width="70" height="20" class="gpu"/><text x="430" y="154" class="sub" text-anchor="middle">Tray 3 (2x)</text>
+                    <rect x="395" y="165" width="70" height="20" class="gpu"/><text x="430" y="179" class="sub" text-anchor="middle">Tray 4 (2x)</text>
+                    <rect x="395" y="190" width="70" height="20" class="gpu"/><text x="430" y="204" class="sub" text-anchor="middle">Tray 5 (2x)</text>
+                    <rect x="395" y="215" width="70" height="20" class="gpu"/><text x="430" y="229" class="sub" text-anchor="middle">Tray 6 (2x)</text>
+                    <rect x="395" y="240" width="70" height="20" class="gpu"/><text x="430" y="254" class="sub" text-anchor="middle">Tray 7 (2x)</text>
+                    <rect x="395" y="265" width="70" height="20" class="gpu"/><text x="430" y="279" class="sub" text-anchor="middle">Tray 8 (2x)</text>
+                    <rect x="395" y="290" width="70" height="20" class="gpu"/><text x="430" y="304" class="sub" text-anchor="middle">Tray 9 (2x)</text>
                 </g>
                 <!-- centre: NVSwitch trays -->
                 <g>
@@ -1295,24 +1300,24 @@ mx_recipe  = MXFP8BlockScaling(fp8_format=Format.E4M3, block_size=<span class="n
                 </g>
                 <!-- right column 9 trays -->
                 <g>
-                    <rect x="595" y="90" width="80" height="20" class="gpu"/><text x="635" y="104" class="sub" text-anchor="middle">GB200 10</text>
-                    <rect x="595" y="115" width="80" height="20" class="gpu"/><text x="635" y="129" class="sub" text-anchor="middle">GB200 11</text>
-                    <rect x="595" y="140" width="80" height="20" class="gpu"/><text x="635" y="154" class="sub" text-anchor="middle">GB200 12</text>
-                    <rect x="595" y="165" width="80" height="20" class="gpu"/><text x="635" y="179" class="sub" text-anchor="middle">GB200 13</text>
-                    <rect x="595" y="190" width="80" height="20" class="gpu"/><text x="635" y="204" class="sub" text-anchor="middle">GB200 14</text>
-                    <rect x="595" y="215" width="80" height="20" class="gpu"/><text x="635" y="229" class="sub" text-anchor="middle">GB200 15</text>
-                    <rect x="595" y="240" width="80" height="20" class="gpu"/><text x="635" y="254" class="sub" text-anchor="middle">GB200 16</text>
-                    <rect x="595" y="265" width="80" height="20" class="gpu"/><text x="635" y="279" class="sub" text-anchor="middle">GB200 17</text>
-                    <rect x="595" y="290" width="80" height="20" class="gpu"/><text x="635" y="304" class="sub" text-anchor="middle">GB200 18</text>
+                    <rect x="595" y="90" width="80" height="20" class="gpu"/><text x="635" y="104" class="sub" text-anchor="middle">Tray 10 (2x)</text>
+                    <rect x="595" y="115" width="80" height="20" class="gpu"/><text x="635" y="129" class="sub" text-anchor="middle">Tray 11 (2x)</text>
+                    <rect x="595" y="140" width="80" height="20" class="gpu"/><text x="635" y="154" class="sub" text-anchor="middle">Tray 12 (2x)</text>
+                    <rect x="595" y="165" width="80" height="20" class="gpu"/><text x="635" y="179" class="sub" text-anchor="middle">Tray 13 (2x)</text>
+                    <rect x="595" y="190" width="80" height="20" class="gpu"/><text x="635" y="204" class="sub" text-anchor="middle">Tray 14 (2x)</text>
+                    <rect x="595" y="215" width="80" height="20" class="gpu"/><text x="635" y="229" class="sub" text-anchor="middle">Tray 15 (2x)</text>
+                    <rect x="595" y="240" width="80" height="20" class="gpu"/><text x="635" y="254" class="sub" text-anchor="middle">Tray 16 (2x)</text>
+                    <rect x="595" y="265" width="80" height="20" class="gpu"/><text x="635" y="279" class="sub" text-anchor="middle">Tray 17 (2x)</text>
+                    <rect x="595" y="290" width="80" height="20" class="gpu"/><text x="635" y="304" class="sub" text-anchor="middle">Tray 18 (2x)</text>
                 </g>
             </g>
 
-            <text x="565" y="328" class="lblA" text-anchor="middle">72 B200 + 9 NVSwitch &middot; 130 TB/s fabric &middot; 13.5 TB HBM3e</text>
+            <text x="565" y="328" class="lblA" text-anchor="middle">72 B200 + 36 Grace + 9 NVSwitch trays &middot; 130 TB/s fabric &middot; 13.8 TB HBM3e</text>
         </svg>
     </div>
 
     <h3>What "Extended GPU Memory" actually is</h3>
-    <p>Each Grace's <strong>480 GB of LPDDR5x</strong> is mapped into the GPU's address space over the C2C link. CUDA sees it as memory with worse latency than HBM but the same coherency guarantees. For workloads with large but cold parameter tables (embeddings, retrieval indices, MoE routing tables), this is huge: your "GPU memory" goes from 192 GB to <strong>192 + 480 = 672 GB per GB200 module</strong>, and 13.5 TB + 8.6 TB = ~22 TB across an NVL72 rack.</p>
+    <p>Each Grace's <strong>480 GB of LPDDR5x</strong> is mapped into the GPU's address space over the C2C link. CUDA sees it as memory with worse latency than HBM but the same coherency guarantees. For workloads with large but cold parameter tables (embeddings, retrieval indices, MoE routing tables), this is huge: your "GPU memory" goes from 192 GB to <strong>192 + 480 = 672 GB per GB200 module</strong> (1 Grace + 2 B200), and 13.8 TB HBM + 17.3 TB LPDDR5x = ~31 TB across an NVL72 rack (36 Graces).</p>
 
     <div class="callout">
         <div class="callout-label">Designed for what</div>
