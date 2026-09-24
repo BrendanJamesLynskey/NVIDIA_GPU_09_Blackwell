@@ -9,15 +9,15 @@
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-card: #0d1117;
-            --bg-code: #161b22;
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --accent: #76B900;
-            --accent-dim: #76B90044;
-            --accent-glow: #76B90033;
-            --border: #21262d;
+            --bg-primary: #1b1b1a;
+            --bg-card: #212120;
+            --bg-code: #292928;
+            --text-primary: #edede7;
+            --text-secondary: #9b9b95;
+            --accent: #b8b315;
+            --accent-dim: #b8b31544;
+            --accent-glow: #b8b31533;
+            --border: #363633;
             --font-display: 'Space Grotesk', sans-serif;
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
             --font-body: 'Inter', sans-serif;
@@ -228,7 +228,7 @@
             font-family: var(--font-mono);
             font-size: 0.75rem;
             color: var(--accent);
-            background: rgba(118, 185, 0, 0.08);
+            background: rgba(184,179,21,0.08);
             padding: 0.4rem 1rem;
             border-bottom: 1px solid var(--border);
         }
@@ -243,18 +243,18 @@
             font-family: var(--font-mono);
             font-size: 0.85rem;
             line-height: 1.6;
-            color: #c9d1d9;
+            color: #d5d5cf;
         }
 
         /* Syntax highlighting (manual) */
-        .kw { color: #ff7b72; }
-        .fn { color: #d2a8ff; }
-        .str { color: #a5d6ff; }
-        .cm { color: #8b949e; font-style: italic; }
-        .num { color: #79c0ff; }
-        .type { color: #ffa657; }
-        .dir { color: #ff7b72; }
-        .mac { color: #ffa657; }
+        .kw { color: #e57d63; }
+        .fn { color: #d1c2e1; }
+        .str { color: #c9dbe2; }
+        .cm { color: #9b9b95; font-style: italic; }
+        .num { color: #afcbd8; }
+        .type { color: #e0b172; }
+        .dir { color: #e57d63; }
+        .mac { color: #e0b172; }
 
         /* ── Tables ── */
         .table-wrap {
@@ -292,7 +292,7 @@
         }
 
         tr:nth-child(even) td {
-            background: rgba(13, 17, 23, 0.5);
+            background: rgba(33,33,32,0.5);
         }
 
         /* ── Diagrams ── */
@@ -324,7 +324,7 @@
         .diagram-box.accent {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(118, 185, 0, 0.08);
+            background: rgba(184,179,21,0.08);
         }
 
         .diagram-box.dim {
@@ -400,7 +400,7 @@
         .hierarchy-item.accent {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(118, 185, 0, 0.08);
+            background: rgba(184,179,21,0.08);
         }
 
         /* Grid diagram */
@@ -673,7 +673,7 @@
             cursor: pointer;
             transition: background 0.15s ease;
         }
-        .btn:hover { background: rgba(118, 185, 0, 0.2); }
+        .btn:hover { background: rgba(184,179,21,0.2); }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .btn.secondary {
             background: var(--bg-code);
@@ -750,8 +750,8 @@
             margin-left: 0.3rem;
         }
         .badge.ok    { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
-        .badge.warn  { border-color: #ffa657; color: #ffa657; background: rgba(255,166,87,0.08); }
-        .badge.bad   { border-color: #ff7b72; color: #ff7b72; background: rgba(255,123,114,0.08); }
+        .badge.warn  { border-color: #e0b172; color: #e0b172; background: rgba(224,177,114,0.08); }
+        .badge.bad   { border-color: #e57d63; color: #e57d63; background: rgba(229,125,99,0.08); }
 
     </style>
 </head>
@@ -860,15 +860,15 @@
             <div class="canvas-wrap" style="margin: 0.5rem 0; padding: 0.5rem;">
                 <svg viewBox="0 0 380 220" width="380" height="220" xmlns="http://www.w3.org/2000/svg">
                     <style>
-                        .die  { fill: #161b22; stroke: #76B900; stroke-width: 1.5; }
-                        .hbm  { fill: rgba(118,185,0,0.08); stroke: #76B900; stroke-dasharray: 3,2; }
-                        .hbi  { fill: rgba(118,185,0,0.4); stroke: #76B900; stroke-width: 2; }
-                        .lbl  { fill: #e6edf3; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
-                        .lblD { fill: #76B900; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
-                        .sub  { fill: #8b949e; font-family: 'JetBrains Mono', monospace; font-size: 9px; }
+                        .die  { fill: #292928; stroke: #b8b315; stroke-width: 1.5; }
+                        .hbm  { fill: rgba(184,179,21,0.08); stroke: #b8b315; stroke-dasharray: 3,2; }
+                        .hbi  { fill: rgba(184,179,21,0.4); stroke: #b8b315; stroke-width: 2; }
+                        .lbl  { fill: #edede7; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+                        .lblD { fill: #b8b315; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
+                        .sub  { fill: #9b9b95; font-family: 'JetBrains Mono', monospace; font-size: 9px; }
                     </style>
                     <!-- Substrate -->
-                    <rect x="10" y="160" width="360" height="40" fill="#0d1117" stroke="#21262d"/>
+                    <rect x="10" y="160" width="360" height="40" fill="#212120" stroke="#363633"/>
                     <text x="20" y="185" class="sub">CoWoS-L interposer + organic substrate</text>
 
                     <!-- Die 0 -->
@@ -1001,27 +1001,27 @@
     <div class="tier-visual">
         <div class="tier-bar">
             <div class="tier-label">BF16</div>
-            <div class="tier-fill" style="width: 12.5%; background: rgba(165,214,255,0.4); border: 1px solid #a5d6ff; color: #a5d6ff;">2.25 PFLOPS</div>
+            <div class="tier-fill" style="width: 12.5%; background: rgba(201,219,226,0.4); border: 1px solid #c9dbe2; color: #c9dbe2;">2.25 PFLOPS</div>
             <div class="tier-cost">baseline</div>
         </div>
         <div class="tier-bar">
             <div class="tier-label">FP8</div>
-            <div class="tier-fill" style="width: 25%; background: rgba(118,185,0,0.4); border: 1px solid #76B900; color: #76B900;">4.5 PFLOPS</div>
+            <div class="tier-fill" style="width: 25%; background: rgba(184,179,21,0.4); border: 1px solid #b8b315; color: #b8b315;">4.5 PFLOPS</div>
             <div class="tier-cost">2&times; BF16</div>
         </div>
         <div class="tier-bar">
             <div class="tier-label">MX-FP6</div>
-            <div class="tier-fill" style="width: 37.5%; background: rgba(210,168,255,0.4); border: 1px solid #d2a8ff; color: #d2a8ff;">~6.75 PFLOPS</div>
+            <div class="tier-fill" style="width: 37.5%; background: rgba(209,194,225,0.4); border: 1px solid #d1c2e1; color: #d1c2e1;">~6.75 PFLOPS</div>
             <div class="tier-cost">3&times; BF16</div>
         </div>
         <div class="tier-bar">
             <div class="tier-label">MX-FP4</div>
-            <div class="tier-fill" style="width: 50%; background: rgba(255,166,87,0.4); border: 1px solid #ffa657; color: #ffa657;">9 PFLOPS</div>
+            <div class="tier-fill" style="width: 50%; background: rgba(224,177,114,0.4); border: 1px solid #e0b172; color: #e0b172;">9 PFLOPS</div>
             <div class="tier-cost">4&times; BF16</div>
         </div>
         <div class="tier-bar">
             <div class="tier-label">MX-FP4 + 2:4</div>
-            <div class="tier-fill" style="width: 100%; background: rgba(255,166,87,0.6); border: 1px solid #ffa657; color: #161b22;">18 PFLOPS</div>
+            <div class="tier-fill" style="width: 100%; background: rgba(224,177,114,0.6); border: 1px solid #e0b172; color: #292928;">18 PFLOPS</div>
             <div class="tier-cost">8&times; BF16</div>
         </div>
     </div>
@@ -1204,18 +1204,18 @@ mx_recipe  = MXFP8BlockScaling(fp8_format=Format.E4M3, block_size=<span class="n
     <div class="canvas-wrap">
         <svg viewBox="0 0 760 360" width="760" height="360" xmlns="http://www.w3.org/2000/svg">
             <style>
-                .gpu  { fill: #161b22; stroke: #76B900; stroke-width: 1.5; }
-                .cpu  { fill: #161b22; stroke: #d2a8ff; stroke-width: 1.5; }
-                .ddr  { fill: rgba(210,168,255,0.08); stroke: #d2a8ff; stroke-dasharray: 3,2; }
-                .hbm  { fill: rgba(118,185,0,0.08); stroke: #76B900; stroke-dasharray: 3,2; }
-                .lnk  { stroke: #76B900; stroke-width: 2; }
-                .c2c  { stroke: #d2a8ff; stroke-width: 2.5; }
-                .nvls { stroke: #ffa657; stroke-width: 2; stroke-dasharray: 4,3; }
-                .lbl  { fill: #e6edf3; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-                .lblA { fill: #76B900; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; }
-                .lblP { fill: #d2a8ff; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; }
-                .lblO { fill: #ffa657; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
-                .sub  { fill: #8b949e; font-family: 'JetBrains Mono', monospace; font-size: 9px; }
+                .gpu  { fill: #292928; stroke: #b8b315; stroke-width: 1.5; }
+                .cpu  { fill: #292928; stroke: #d1c2e1; stroke-width: 1.5; }
+                .ddr  { fill: rgba(209,194,225,0.08); stroke: #d1c2e1; stroke-dasharray: 3,2; }
+                .hbm  { fill: rgba(184,179,21,0.08); stroke: #b8b315; stroke-dasharray: 3,2; }
+                .lnk  { stroke: #b8b315; stroke-width: 2; }
+                .c2c  { stroke: #d1c2e1; stroke-width: 2.5; }
+                .nvls { stroke: #e0b172; stroke-width: 2; stroke-dasharray: 4,3; }
+                .lbl  { fill: #edede7; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+                .lblA { fill: #b8b315; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; }
+                .lblP { fill: #d1c2e1; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; }
+                .lblO { fill: #e0b172; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
+                .sub  { fill: #9b9b95; font-family: 'JetBrains Mono', monospace; font-size: 9px; }
             </style>
             <text x="20" y="22" class="lblA">GB200 superchip (left) and NVL72 rack (right)</text>
 
@@ -1267,7 +1267,7 @@ mx_recipe  = MXFP8BlockScaling(fp8_format=Format.E4M3, block_size=<span class="n
 
             <!-- ============ NVL72 ============ -->
             <text x="430" y="50" class="lbl">NVL72 Rack</text>
-            <rect x="380" y="60" width="370" height="280" fill="#0d1117" stroke="#21262d"/>
+            <rect x="380" y="60" width="370" height="280" fill="#212120" stroke="#363633"/>
 
             <!-- 18 compute trays (3 cols x 6 rows of GB200 squares) -->
             <text x="565" y="76" class="sub" text-anchor="middle">18 compute trays &middot; each tray = 2 GB200 &middot; 36 Grace + 72 B200 total</text>
@@ -1288,15 +1288,15 @@ mx_recipe  = MXFP8BlockScaling(fp8_format=Format.E4M3, block_size=<span class="n
                 </g>
                 <!-- centre: NVSwitch trays -->
                 <g>
-                    <rect x="490" y="90" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="104" class="lblO" text-anchor="middle">NVSwitch</text>
-                    <rect x="490" y="115" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="129" class="lblO" text-anchor="middle">NVSwitch</text>
-                    <rect x="490" y="140" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="154" class="lblO" text-anchor="middle">NVSwitch</text>
-                    <rect x="490" y="165" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="179" class="lblO" text-anchor="middle">NVSwitch</text>
-                    <rect x="490" y="190" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="204" class="lblO" text-anchor="middle">NVSwitch</text>
-                    <rect x="490" y="215" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="229" class="lblO" text-anchor="middle">NVSwitch</text>
-                    <rect x="490" y="240" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="254" class="lblO" text-anchor="middle">NVSwitch</text>
-                    <rect x="490" y="265" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="279" class="lblO" text-anchor="middle">NVSwitch</text>
-                    <rect x="490" y="290" width="80" height="20" fill="rgba(255,166,87,0.08)" stroke="#ffa657"/><text x="530" y="304" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="90" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="104" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="115" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="129" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="140" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="154" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="165" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="179" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="190" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="204" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="215" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="229" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="240" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="254" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="265" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="279" class="lblO" text-anchor="middle">NVSwitch</text>
+                    <rect x="490" y="290" width="80" height="20" fill="rgba(224,177,114,0.08)" stroke="#e0b172"/><text x="530" y="304" class="lblO" text-anchor="middle">NVSwitch</text>
                 </g>
                 <!-- right column 9 trays -->
                 <g>
